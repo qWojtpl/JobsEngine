@@ -1,0 +1,13 @@
+name: JobsEngine
+version: '${project.version}'
+main: pl.jobsengine.JobsEngine
+api-version: 1.19
+authors: [Assasin98980]
+description: Add jobs to your Minecraft server
+commands:
+  jobs:
+    description: Use JobsEngine plugin
+    aliases:
+      - job
+      - praca
+      - prace

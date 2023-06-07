@@ -1,0 +1,44 @@
+jobs:
+  miner:
+    icon:
+      item: DIAMOND_PICKAXE
+      name: "Miner job"
+      lore:
+        - Just a normal miner job.
+    maxLevel: 100
+    requiredExp: 100 # Required exp to get next level. Required exp is calculated by requiredExp * currentPlayerLevel
+    paydayInterval: 3600
+    levelExpMultipler: 1.05
+    exp:
+      break:
+        diamond_ore: 3
+        iron_ore: 1
+        gold_ore: 2
+        emerald_ore: 4
+        stone: 0.5
+        ANY: 0.001
+      kill:
+        zombie: 0.1
+    payout:
+      0:
+        type: ON_LEVEL_UP
+        reward:
+          type: EXECUTE_COMMAND
+          execute: give %player% diamond 12
+          multiplyByLevel: true
+        unlocksOnLevel: 0
+        endsOnLevel: 10
+      1:
+        type: PAYDAY
+        reward:
+          type: GIVE_ITEM
+          item:
+            name: "Payout emerald"
+            lore:
+              - Emerald lore 1
+              - Emerald lore 2
+            type: EMERALD
+            count: 10
+          multiplyByLevel: false
+        unlocksOnLevel: 5
+        endsOnLevel: 10
