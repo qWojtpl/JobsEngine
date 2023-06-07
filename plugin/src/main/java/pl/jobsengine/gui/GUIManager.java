@@ -1,0 +1,51 @@
+package pl.jobsengine.gui;
+
+import lombok.Getter;
+import org.bukkit.inventory.Inventory;
+import pl.jobsengine.JobsEngine;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+public class GUIManager {
+
+    private final JobsEngine plugin = JobsEngine.getInstance();
+    private final List<GUIMethods> inventories = new ArrayList<>();
+
+    public void registerInventory(GUIMethods gui) {
+        if(gui instanceof PluginGUI) {
+            ((PluginGUI) gui).onOpen();
+        }
+        inventories.add(gui);
+    }
+
+    public void removeInventory(GUIMethods gui) {
+        if(gui instanceof PluginGUI) {
+            ((PluginGUI) gui).onClose();
+        }
+        inventories.remove(gui);
+    }
+
+    public void onClick(Inventory inventory, int slot) {
+        GUIMethods gui = getGUIByInventory(inventory);
+        if(gui == null) {
+            return;
+        }
+        if(gui instanceof PluginGUI) {
+            ((PluginGUI) gui).onClickSlot(slot);
+        }
+    }
+
+    @Nullable
+    public GUIMethods getGUIByInventory(Inventory inventory) {
+        for(GUIMethods gui : inventories) {
+            if(gui.getInventory().equals(inventory)) {
+                return gui;
+            }
+        }
+        return null;
+    }
+
+}

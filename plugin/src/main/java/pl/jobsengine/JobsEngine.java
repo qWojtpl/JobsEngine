@@ -7,14 +7,16 @@ import pl.jobsengine.commands.CommandHelper;
 import pl.jobsengine.commands.Commands;
 import pl.jobsengine.data.DataHandler;
 import pl.jobsengine.events.Events;
+import pl.jobsengine.gui.GUIManager;
 import pl.jobsengine.jobs.JobsManager;
 
 @Getter
 public final class JobsEngine extends JavaPlugin {
 
     private static JobsEngine main;
-    private DataHandler dataHandler;
     private JobsManager jobsManager;
+    private DataHandler dataHandler;
+    private GUIManager guiManager;
     private Commands commands;
     private CommandHelper commandHelper;
     private Events events;
@@ -22,8 +24,9 @@ public final class JobsEngine extends JavaPlugin {
     @Override
     public void onEnable() {
         main = this;
-        this.dataHandler = new DataHandler();
         this.jobsManager = new JobsManager();
+        this.dataHandler = new DataHandler();
+        this.guiManager = new GUIManager();
         this.commands = new Commands();
         this.commandHelper = new CommandHelper();
         this.events = new Events();
