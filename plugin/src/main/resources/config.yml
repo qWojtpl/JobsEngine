@@ -1,2 +1,3 @@
 config:
   expMultipler: 1
+  toolbarExpLength: 30

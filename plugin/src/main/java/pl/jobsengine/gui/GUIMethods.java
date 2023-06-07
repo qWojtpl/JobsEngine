@@ -58,4 +58,8 @@ public class GUIMethods {
         guiProtected = protect;
     }
 
+    public void closeInventory() {
+        owner.closeInventory();
+    }
+
 }

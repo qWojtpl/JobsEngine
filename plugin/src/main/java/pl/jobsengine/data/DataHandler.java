@@ -1,5 +1,7 @@
 package pl.jobsengine.data;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -11,10 +13,14 @@ import pl.jobsengine.jobs.JobsManager;
 
 import java.io.File;
 
+@Getter
+@Setter
 public class DataHandler {
 
     private final JobsEngine plugin = JobsEngine.getInstance();
     private final JobsManager jobsManager = plugin.getJobsManager();
+    private double expMultipler;
+    private int toolbarExpLength;
 
     public void loadAll() {
         loadConfig();
@@ -23,10 +29,13 @@ public class DataHandler {
     }
 
     public void loadConfig() {
-        File configFile = getConfigFile();
+        YamlConfiguration yml = YamlConfiguration.loadConfiguration(getConfigFile());
+        expMultipler = yml.getDouble("config.expMultipler", 1);
+        toolbarExpLength = yml.getInt("config.toolbarExpLength", 30);
     }
 
     public void loadJobs() {
+        jobsManager.getJobs().clear();
         YamlConfiguration yml = YamlConfiguration.loadConfiguration(getJobsFile());
         ConfigurationSection section = yml.getConfigurationSection("jobs");
         if(section == null) {
@@ -71,7 +80,7 @@ public class DataHandler {
     }
 
     public void loadData() {
-
+        jobsManager.getPlayerProfiles().clear();
     }
 
     public File getConfigFile() {

@@ -1,7 +1,6 @@
 package pl.jobsengine.jobs;
 
 import lombok.Getter;
-import org.bukkit.entity.Player;
 import pl.jobsengine.JobsEngine;
 
 import javax.annotation.Nullable;
@@ -13,7 +12,6 @@ public class JobsManager {
     private final JobsEngine plugin = JobsEngine.getInstance();
     private final HashMap<String, Job> jobs = new HashMap<>();
     private final HashMap<String, PlayerProfile> playerProfiles = new HashMap<>();
-    private final HashMap<Player, Job> playerJobs = new HashMap<>();
 
     public void createJob(Job job) {
         jobs.put(job.getName(), job);

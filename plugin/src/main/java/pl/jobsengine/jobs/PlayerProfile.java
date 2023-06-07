@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import pl.jobsengine.JobsEngine;
 import pl.jobsengine.util.PlayerUtil;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 
 @Getter
@@ -49,19 +50,21 @@ public class PlayerProfile {
         if(p == null) {
             return;
         }
-        double times = getJobStats(job).getExp()/(job.getRequiredExp() * getJobStats(job).getLevel()) * 20;
+        int length = JobsEngine.getInstance().getDataHandler().getToolbarExpLength();
+        double times = getJobStats(job).getExp()/(job.getRequiredExp() * getJobStats(job).getLevel()) * length;
         String green = "§a";
         String red = "§4";
-        for(int i = 0; i < times; i++) {
+        for(int i = 1; i <= times; i++) {
             green += "|";
         }
-        for(double i = times; i <= 20; i++) {
+        for(int i = (int) times + 1; i < length; i++) {
             red += "|";
         }
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
                 "§e" + job.getName() + " §7" + getJobStats(job).getLevel() + "    " + green + red + "   §2+ " + count + " xp"));
     }
 
+    @Nullable
     public Player getCastedPlayer() {
         return PlayerUtil.getPlayer(player);
     }

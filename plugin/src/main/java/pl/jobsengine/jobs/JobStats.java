@@ -2,6 +2,7 @@ package pl.jobsengine.jobs;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.jobsengine.JobsEngine;
 
 @Getter
 @Setter
@@ -18,7 +19,7 @@ public class JobStats {
     }
 
     public void addExp(double count) {
-        exp += count;
+        exp += count * JobsEngine.getInstance().getDataHandler().getExpMultipler();
         if(exp >= job.getRequiredExp() * level) {
             exp -= job.getRequiredExp() * level;
             addLevel(1);
