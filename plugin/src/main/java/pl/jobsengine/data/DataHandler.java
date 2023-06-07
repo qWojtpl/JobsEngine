@@ -49,7 +49,6 @@ public class DataHandler {
             job.setMaxLevel(yml.getInt(path + "maxLevel", 100));
             job.setRequiredExp(yml.getDouble(path + "requiredExp", 100));
             job.setPaydayInterval(yml.getInt(path + "paydayInterval", 3600));
-            job.setLevelExpMultipler(yml.getDouble(path + "levelExpMulitpler", 1.05));
             /* =========== [ LOADING EXP INFO ] =========== */
             ExpInfo expInfo = new ExpInfo();
             String[] sections = new String[]{"break", "kill"};
@@ -57,7 +56,7 @@ public class DataHandler {
                 ConfigurationSection expSection = yml.getConfigurationSection(path + "exp." + sectionName);
                 if(expSection != null) {
                     for(String trigger : expSection.getKeys(false)) {
-                        double exp = yml.getDouble(path + "exp." + sectionName + "." + name, 1);
+                        double exp = yml.getDouble(path + "exp." + sectionName + "." + trigger, 1);
                         if(sectionName.equals("break")) {
                             expInfo.getBlockBreaks().put(trigger, exp);
                         } else {

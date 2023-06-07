@@ -8,7 +8,6 @@ jobs:
     maxLevel: 100
     requiredExp: 100 # Required exp to get next level. Required exp is calculated by requiredExp * currentPlayerLevel
     paydayInterval: 3600
-    levelExpMultipler: 1.05
     exp:
       break:
         diamond_ore: 3

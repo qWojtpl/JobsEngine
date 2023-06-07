@@ -2,6 +2,8 @@ package pl.jobsengine.jobs;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 import pl.jobsengine.JobsEngine;
 import pl.jobsengine.util.PlayerUtil;
@@ -34,12 +36,34 @@ public class PlayerProfile {
         return jobStats;
     }
 
-    public void levelUp(String jobName, int level) {
-        Player p = PlayerUtil.getPlayer(player);
+    public void onLevelUp(Job job, int level) {
+        Player p = getCastedPlayer();
         if(p == null) {
             return;
         }
-        p.sendMessage("You leveled up in job " + jobName + "! Your new level is " + level);
+        p.sendMessage("You leveled up in job " + job.getName() + "! Your new level is " + level);
+    }
+
+    public void onUpdateExp(Job job, double count) {
+        Player p = getCastedPlayer();
+        if(p == null) {
+            return;
+        }
+        double times = getJobStats(job).getExp()/(job.getRequiredExp() * getJobStats(job).getLevel()) * 20;
+        String green = "§a";
+        String red = "§4";
+        for(int i = 0; i < times; i++) {
+            green += "|";
+        }
+        for(double i = times; i <= 20; i++) {
+            red += "|";
+        }
+        p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
+                "§e" + job.getName() + " §7" + getJobStats(job).getLevel() + "    " + green + red + "   §2+ " + count + " xp"));
+    }
+
+    public Player getCastedPlayer() {
+        return PlayerUtil.getPlayer(player);
     }
 
 }

@@ -5,6 +5,7 @@ import pl.jobsengine.gui.GUIMethods;
 import pl.jobsengine.gui.PluginGUI;
 import pl.jobsengine.jobs.JobIcon;
 import pl.jobsengine.jobs.JobsManager;
+import pl.jobsengine.util.PlayerUtil;
 
 public class OfferGUI extends GUIMethods implements PluginGUI {
 
@@ -31,7 +32,9 @@ public class OfferGUI extends GUIMethods implements PluginGUI {
 
     @Override
     public void onClickSlot(int slot) {
-
+        if(slot == 0) {
+            getPlugin().getJobsManager().assignJob(getOwner().getName(), getPlugin().getJobsManager().getJobByName("miner"));
+        }
     }
 
 }

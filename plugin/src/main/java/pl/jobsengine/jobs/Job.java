@@ -15,7 +15,6 @@ public class Job {
     private int maxLevel = 100;
     private double requiredExp = 100;
     private int paydayInterval = 3600;
-    private double levelExpMultipler = 1.05;
     private ExpInfo expInfo;
     private List<Payout> payoutList = new ArrayList<>();
 
