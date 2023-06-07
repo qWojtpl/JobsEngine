@@ -1,3 +1,4 @@
 config:
   expMultipler: 1
   toolbarExpLength: 30
+  toolbarSign: "|"

@@ -21,6 +21,7 @@ public class DataHandler {
     private final JobsManager jobsManager = plugin.getJobsManager();
     private double expMultipler;
     private int toolbarExpLength;
+    private String toolbarSign;
 
     public void loadAll() {
         loadConfig();
@@ -32,6 +33,7 @@ public class DataHandler {
         YamlConfiguration yml = YamlConfiguration.loadConfiguration(getConfigFile());
         expMultipler = yml.getDouble("config.expMultipler", 1);
         toolbarExpLength = yml.getInt("config.toolbarExpLength", 30);
+        toolbarSign = yml.getString("config.toolbarSign", "|");
     }
 
     public void loadJobs() {

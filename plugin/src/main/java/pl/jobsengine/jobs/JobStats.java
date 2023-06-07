@@ -19,18 +19,23 @@ public class JobStats {
     }
 
     public void addExp(double count) {
-        exp += count * JobsEngine.getInstance().getDataHandler().getExpMultipler();
-        if(exp >= job.getRequiredExp() * level) {
-            exp -= job.getRequiredExp() * level;
-            addLevel(1);
-        } else {
-            profile.onUpdateExp(job, count);
-        }
+        double expCount = count * JobsEngine.getInstance().getDataHandler().getExpMultipler();
+        exp += expCount;
+        checkLevel(expCount);
     }
 
     public void addLevel(double level) {
         this.level += level;
         profile.onLevelUp(job, this.level);
+        checkLevel(0);
+    }
+
+    public void checkLevel(double count) {
+        profile.onUpdateExp(job, count);
+        if(exp >= job.getRequiredExp() * level) {
+            exp -= job.getRequiredExp() * level;
+            addLevel(1);
+        }
     }
 
 }

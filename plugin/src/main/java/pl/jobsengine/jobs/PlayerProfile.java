@@ -46,22 +46,38 @@ public class PlayerProfile {
     }
 
     public void onUpdateExp(Job job, double count) {
+        if(count == 0) {
+            return;
+        }
         Player p = getCastedPlayer();
         if(p == null) {
             return;
         }
         int length = JobsEngine.getInstance().getDataHandler().getToolbarExpLength();
-        double times = getJobStats(job).getExp()/(job.getRequiredExp() * getJobStats(job).getLevel()) * length;
+        double exp = getJobStats(job).getExp();
+        if(exp < 0) {
+            exp = 0;
+        }
+        double times = exp/(job.getRequiredExp() * getJobStats(job).getLevel()) * length;
         String green = "§a";
         String red = "§4";
+        String sign = JobsEngine.getInstance().getDataHandler().getToolbarSign();
         for(int i = 1; i <= times; i++) {
-            green += "|";
+            if(i > length) {
+                break;
+            }
+            green += sign;
         }
-        for(int i = (int) times + 1; i < length; i++) {
-            red += "|";
+        for(int i = (int) times + 1; i <= length; i++) {
+            red += sign;
         }
+        String expSign = "§c-";
+        if(count > 0) {
+            expSign = "§2+";
+        }
+        count = Math.abs(count);
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(
-                "§e" + job.getName() + " §7" + getJobStats(job).getLevel() + "    " + green + red + "   §2+ " + count + " xp"));
+                "§e" + job.getName() + " §7" + getJobStats(job).getLevel() + "    " + green + red + "   " + expSign + " " + count + " xp"));
     }
 
     @Nullable
