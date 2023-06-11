@@ -8,13 +8,15 @@ import pl.jobsengine.jobs.JobsManager;
 
 public class OfferGUI extends GUIMethods {
 
+    private JobsManager jobsManager;
+
     public OfferGUI(Player owner, String inventoryName, int inventorySize) {
         super(owner, inventoryName, inventorySize);
     }
 
     @Override
     public void onOpen() {
-        JobsManager jobsManager = getPlugin().getJobsManager();
+        jobsManager = getPlugin().getJobsManager();
         setGUIProtected(true);
         fillWith(Material.BLACK_STAINED_GLASS_PANE);
         int i = 0;
@@ -27,7 +29,6 @@ public class OfferGUI extends GUIMethods {
 
     @Override
     public void onClickSlot(int slot) {
-        JobsManager jobsManager = getPlugin().getJobsManager();
         int i = 0;
         for(String name : jobsManager.getJobs().keySet()) {
             if(slot == i) {

@@ -2,8 +2,10 @@ package pl.jobsengine.gui;
 
 import lombok.Getter;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.jobsengine.JobsEngine;
@@ -60,6 +62,26 @@ public class GUIMethods {
 
     public List<String> getLore(String... loreLine) {
         return new ArrayList<>(Arrays.asList(loreLine));
+    }
+
+    public void setSlotEnchanted(int slot, boolean enchanted) {
+        ItemStack is = inventory.getItem(slot);
+        if(is == null) {
+            return;
+        }
+        ItemMeta im = is.getItemMeta();
+        if(im == null) {
+            return;
+        }
+        if(enchanted) {
+            im.addEnchant(Enchantment.DURABILITY, 1, true);
+            im.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        } else {
+            im.removeEnchant(Enchantment.DURABILITY);
+            im.removeItemFlags(ItemFlag.HIDE_ENCHANTS);
+        }
+        is.setItemMeta(im);
+        setSlot(slot, is);
     }
 
     public void setGUIProtected(boolean protect) {

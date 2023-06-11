@@ -12,13 +12,15 @@ import pl.jobsengine.jobs.PlayerProfile;
 
 public class ProfileGUI extends GUIMethods {
 
+    private JobsManager jobsManager;
+
     public ProfileGUI(Player owner, String inventoryName, int inventorySize) {
         super(owner, inventoryName, inventorySize);
     }
 
     @Override
     public void onOpen() {
-        JobsManager jobsManager = JobsEngine.getInstance().getJobsManager();
+        jobsManager = JobsEngine.getInstance().getJobsManager();
         setGUIProtected(true);
         fillWith(Material.BLACK_STAINED_GLASS_PANE);
         ItemStack head = new ItemStack(Material.PLAYER_HEAD);
@@ -39,7 +41,7 @@ public class ProfileGUI extends GUIMethods {
                     "§eCurrent job: " + job.getName(),
                     getLore(
                             "§eLevel: " + level,
-                            "§eExp: " + profile.getJobStats(job).getExp() + "/" + job.getRequiredExp() * level));
+                            "§eExp: " + Math.round(profile.getJobStats(job).getExp()) + "/" + job.getRequiredExp() * level));
             setSlot(40, Material.BARRIER, "§4Quit current job", getLore("§cGo find something better"));
         }
         setSlot(29, Material.OAK_SIGN, "§2Job stats", getLore("§aSee your jobs stats"));
@@ -51,6 +53,12 @@ public class ProfileGUI extends GUIMethods {
         if(slot == 33) {
             closeInventory();
             new OfferGUI(getOwner(), "Offers", 9);
+        } else if(slot == 14) {
+            if(jobsManager.getPlayersJob(getOwner().getName()) == null) {
+                return;
+            }
+            closeInventory();
+            new ExperienceGUI(getOwner(), "Experience", 54);
         }
     }
 

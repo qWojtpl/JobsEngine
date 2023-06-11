@@ -42,4 +42,10 @@ public class GUIManager {
         return null;
     }
 
+    public void closeAllInventories() {
+        for(GUIMethods gui : getInventories()) {
+            gui.closeInventory();
+        }
+    }
+
 }
