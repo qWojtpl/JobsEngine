@@ -15,16 +15,12 @@ public class GUIManager {
     private final List<GUIMethods> inventories = new ArrayList<>();
 
     public void registerInventory(GUIMethods gui) {
-        if(gui instanceof PluginGUI) {
-            ((PluginGUI) gui).onOpen();
-        }
+        gui.onOpen();
         inventories.add(gui);
     }
 
     public void removeInventory(GUIMethods gui) {
-        if(gui instanceof PluginGUI) {
-            ((PluginGUI) gui).onClose();
-        }
+        gui.onClose();
         inventories.remove(gui);
     }
 
@@ -33,9 +29,7 @@ public class GUIManager {
         if(gui == null) {
             return;
         }
-        if(gui instanceof PluginGUI) {
-            ((PluginGUI) gui).onClickSlot(slot);
-        }
+        gui.onClickSlot(slot);
     }
 
     @Nullable

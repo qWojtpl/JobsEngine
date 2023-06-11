@@ -1,12 +1,12 @@
 package pl.jobsengine.gui.list;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import pl.jobsengine.gui.GUIMethods;
-import pl.jobsengine.gui.PluginGUI;
 import pl.jobsengine.jobs.JobIcon;
 import pl.jobsengine.jobs.JobsManager;
 
-public class OfferGUI extends GUIMethods implements PluginGUI {
+public class OfferGUI extends GUIMethods {
 
     public OfferGUI(Player owner, String inventoryName, int inventorySize) {
         super(owner, inventoryName, inventorySize);
@@ -14,8 +14,9 @@ public class OfferGUI extends GUIMethods implements PluginGUI {
 
     @Override
     public void onOpen() {
-        setGUIProtected(true);
         JobsManager jobsManager = getPlugin().getJobsManager();
+        setGUIProtected(true);
+        fillWith(Material.BLACK_STAINED_GLASS_PANE);
         int i = 0;
         for(String name : jobsManager.getJobs().keySet()) {
             JobIcon icon = jobsManager.getJobs().get(name).getIcon();
@@ -25,15 +26,16 @@ public class OfferGUI extends GUIMethods implements PluginGUI {
     }
 
     @Override
-    public void onClose() {
-
-    }
-
-    @Override
     public void onClickSlot(int slot) {
-        if(slot == 0) {
-            getPlugin().getJobsManager().assignJob(getOwner().getName(), getPlugin().getJobsManager().getJobByName("miner"));
-            closeInventory();
+        JobsManager jobsManager = getPlugin().getJobsManager();
+        int i = 0;
+        for(String name : jobsManager.getJobs().keySet()) {
+            if(slot == i) {
+                getPlugin().getJobsManager().assignJob(getOwner().getName(), jobsManager.getJobByName(name));
+                getOwner().sendMessage("Assigned job: " + name);
+                closeInventory();
+            }
+            i++;
         }
     }
 

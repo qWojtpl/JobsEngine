@@ -22,7 +22,7 @@ public class Commands implements CommandExecutor {
             invokeMethod(sender, args);
         } else {
             if(sender instanceof Player) {
-                invokeMethod(sender, new String[]{"offers"});
+                invokeMethod(sender, new String[]{"profile"});
             } else {
                 invokeMethod(sender, new String[]{"help"});
             }

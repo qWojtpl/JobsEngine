@@ -1,7 +1,6 @@
 package pl.jobsengine.gui;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -9,19 +8,24 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.jobsengine.JobsEngine;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
-@Setter
 public class GUIMethods {
 
     private final JobsEngine plugin = JobsEngine.getInstance();
-    private Inventory inventory;
-    private Player owner;
+    private final Player owner;
+    private final Inventory inventory;
+    private final String inventoryName;
+    private final int inventorySize;
     private boolean guiProtected = false;
 
     public GUIMethods(Player owner, String inventoryName, int inventorySize) {
         this.owner = owner;
+        this.inventoryName = inventoryName;
+        this.inventorySize = inventorySize;
         this.inventory = plugin.getServer().createInventory(owner, inventorySize, inventoryName);
         plugin.getGuiManager().registerInventory(this);
         owner.openInventory(inventory);
@@ -54,12 +58,34 @@ public class GUIMethods {
         inventory.setItem(slot, is);
     }
 
+    public List<String> getLore(String... loreLine) {
+        return new ArrayList<>(Arrays.asList(loreLine));
+    }
+
     public void setGUIProtected(boolean protect) {
         guiProtected = protect;
     }
 
     public void closeInventory() {
         owner.closeInventory();
+    }
+
+    public void fillWith(Material material) {
+        for(int i = 0; i < inventorySize; i++) {
+            setSlot(i, material, " ", new ArrayList<>());
+        }
+    }
+
+    public void onOpen() {
+
+    }
+
+    public void onClose() {
+
+    }
+
+    public void onClickSlot(int slot) {
+
     }
 
 }
