@@ -13,7 +13,8 @@ import java.util.List;
 
 public class ExperienceGUI extends GUIMethods {
 
-    private HashMap<String, HashMap<String, Double>> pages;
+    private HashMap<String, HashMap<String, Double>> pagesMaps;
+    private HashMap<Integer, String> pagesSlots;
 
     public ExperienceGUI(Player owner, String inventoryName, int inventorySize) {
         super(owner, inventoryName, inventorySize);
@@ -27,46 +28,37 @@ public class ExperienceGUI extends GUIMethods {
             return;
         }
         ExpInfo expInfo = job.getExpInfo();
-        pages = new HashMap<>();
-        pages.put("mining", expInfo.getBlockBreaks());
-        pages.put("killing", expInfo.getMobKills());
+        pagesMaps = new HashMap<>();
+        pagesSlots = new HashMap<>();
+        pagesMaps.put("mining", expInfo.getBlockBreaks());
+        pagesSlots.put(47, "mining");
+        pagesMaps.put("killing", expInfo.getMobKills());
+        pagesSlots.put(48, "killing");
+        pagesMaps.put("fishing", expInfo.getFishItems());
+        pagesSlots.put(49, "fishing");
+        pagesMaps.put("building", expInfo.getBuildBlocks());
+        pagesSlots.put(50, "building");
+        pagesMaps.put("eating", expInfo.getEatItems());
+        pagesSlots.put(51, "eating");
         loadPage("mining");
     }
 
     @Override
     public void onClickSlot(int slot) {
-        if(slot == 47) {
-            loadPage("mining");
-        } else if(slot == 48) {
-            loadPage("killing");
-        } else if(slot == 49) {
-            loadPage("fishing");
-        } else if(slot == 50) {
-            loadPage("building");
-        } else if(slot == 51) {
-            loadPage("eating");
+        if(pagesSlots.containsKey(slot)) {
+            loadPage(pagesSlots.get(slot));
         }
     }
 
     public void loadPage(String pageName) {
         fillWith(Material.BLACK_STAINED_GLASS_PANE);
-        HashMap<String, Double> pageInfo = pages.getOrDefault(pageName, new HashMap<>());
+        HashMap<String, Double> pageInfo = pagesMaps.getOrDefault(pageName, new HashMap<>());
         setSlot(47, Material.DIAMOND_PICKAXE, "§2Mining", getLore("§aSwitch to mining section"));
         setSlot(48, Material.WOODEN_SWORD, "§2Killing", getLore("§aSwitch to killing section"));
         setSlot(49, Material.FISHING_ROD, "§2Fishing", getLore("§aSwitch to fishing section"));
         setSlot(50, Material.GOLDEN_HELMET, "§2Building", getLore("§aSwitch to building section"));
         setSlot(51, Material.COOKED_BEEF, "§2Eating", getLore("§aSwitch to eating section"));
-        if(pageName.equalsIgnoreCase("mining")) {
-            setSlotEnchanted(47, true);
-        } else if(pageName.equalsIgnoreCase("killing")) {
-            setSlotEnchanted(48, true);
-        } else if(pageName.equalsIgnoreCase("fishing")) {
-            setSlotEnchanted(49, true);
-        } else if(pageName.equalsIgnoreCase("building")) {
-            setSlotEnchanted(50, true);
-        } else if(pageName.equalsIgnoreCase("eating")) {
-            setSlotEnchanted(51, true);
-        }
+        setSlotEnchanted(getSlotByName(pageName), true);
         List<String> extendedLore = new ArrayList<>();
         int i = 0;
         for(String trigger : pageInfo.keySet()) {
@@ -95,6 +87,15 @@ public class ExperienceGUI extends GUIMethods {
         if(extendedLore.size() > 0) {
             setSlot(35, Material.BEDROCK, "§aAnd (" + (pageInfo.size() - 35) + ") more...", extendedLore);
         }
+    }
+
+    private int getSlotByName(String name) {
+        for(int slot : pagesSlots.keySet()) {
+            if(pagesSlots.get(slot).equals(name)) {
+                return slot;
+            }
+        }
+        return 0;
     }
 
 }
