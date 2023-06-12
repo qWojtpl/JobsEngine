@@ -64,7 +64,10 @@ public class ExperienceGUI extends GUIMethods {
         for(String trigger : pageInfo.keySet()) {
             Material m = Material.getMaterial(trigger.toUpperCase());
             if(m == null) {
-                m = Material.BEDROCK;
+                m = Material.getMaterial(trigger.toUpperCase() + "_SPAWN_EGG");
+                if(m == null) {
+                    m = Material.BEDROCK;
+                }
             }
             String name = trigger;
             if(trigger.equals("ANY")) {

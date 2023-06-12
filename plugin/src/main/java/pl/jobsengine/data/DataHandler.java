@@ -62,7 +62,7 @@ public class DataHandler {
             job.setPaydayInterval(yml.getInt(path + "paydayInterval", 3600));
             /* =========== [ LOADING EXP INFO ] =========== */
             ExpInfo expInfo = new ExpInfo();
-            String[] sections = new String[]{"break", "kill"};
+            String[] sections = new String[]{"break", "kill", "fish", "build", "eat"};
             for(String sectionName : sections) {
                 ConfigurationSection expSection = yml.getConfigurationSection(path + "exp." + sectionName);
                 if(expSection != null) {
@@ -70,8 +70,14 @@ public class DataHandler {
                         double exp = yml.getDouble(path + "exp." + sectionName + "." + trigger, 1);
                         if(sectionName.equals("break")) {
                             expInfo.getBlockBreaks().put(trigger, exp);
-                        } else {
+                        } else if(sectionName.equals("kill")) {
                             expInfo.getMobKills().put(trigger, exp);
+                        } else if(sectionName.equals("fish")) {
+                            expInfo.getFishItems().put(trigger, exp);
+                        } else if(sectionName.equals("build")) {
+                            expInfo.getBuildBlocks().put(trigger, exp);
+                        } else if(sectionName.equals("eat")) {
+                            expInfo.getEatItems().put(trigger, exp);
                         }
                     }
                 }
