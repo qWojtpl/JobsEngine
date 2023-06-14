@@ -42,6 +42,7 @@ public final class JobsEngine extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        getDataHandler().saveData();
         getGuiManager().closeAllInventories();
         getLogger().info("Disabled JobsEngine!");
     }

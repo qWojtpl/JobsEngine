@@ -40,7 +40,7 @@ public class Events implements Listener {
         } else {
             expToGive += job.getExpInfo().getBlockBreaks().get(blockName);
         }
-        jobsManager.createPlayerProfile(event.getPlayer().getName()).getJobStats(job).addExp(expToGive);
+        jobsManager.getPlayerProfile(event.getPlayer().getName()).getJobStats(job).addExp(expToGive);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -62,7 +62,7 @@ public class Events implements Listener {
         } else {
             expToGive += job.getExpInfo().getMobKills().get(mobName);
         }
-        jobsManager.createPlayerProfile(p.getName()).getJobStats(job).addExp(expToGive);
+        jobsManager.getPlayerProfile(p.getName()).getJobStats(job).addExp(expToGive);
     }
 
     @EventHandler

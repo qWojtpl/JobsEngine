@@ -18,20 +18,17 @@ public class JobsManager {
     }
 
     public void assignJob(String nickname, Job job) {
-        PlayerProfile profile = createPlayerProfile(nickname);
+        PlayerProfile profile = getPlayerProfile(nickname);
         profile.setCurrentJob(job);
         profile.createStats(job);
+        plugin.getDataHandler().assignJob(nickname, job);
     }
 
-    public PlayerProfile createPlayerProfile(String nickname) {
+    public PlayerProfile getPlayerProfile(String nickname) {
         if(playerProfiles.containsKey(nickname)) {
             return playerProfiles.get(nickname);
         }
         return new PlayerProfile(nickname);
-    }
-
-    public PlayerProfile getPlayerProfile(String nickname) {
-        return createPlayerProfile(nickname);
     }
 
     @Nullable

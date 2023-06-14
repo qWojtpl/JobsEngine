@@ -6,12 +6,10 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import pl.jobsengine.JobsEngine;
-import pl.jobsengine.jobs.ExpInfo;
-import pl.jobsengine.jobs.Job;
-import pl.jobsengine.jobs.JobIcon;
-import pl.jobsengine.jobs.JobsManager;
+import pl.jobsengine.jobs.*;
 
 import java.io.File;
+import java.io.IOException;
 
 @Getter
 @Setter
@@ -22,6 +20,7 @@ public class DataHandler {
     private double expMultipler;
     private int toolbarExpLength;
     private String toolbarSign;
+    private YamlConfiguration data;
 
     public void loadAll() {
         loadConfig();
@@ -89,6 +88,35 @@ public class DataHandler {
 
     public void loadData() {
         jobsManager.getPlayerProfiles().clear();
+        data = YamlConfiguration.loadConfiguration(getDataFile());
+        ConfigurationSection section = data.getConfigurationSection("data");
+        if(section == null) {
+            return;
+        }
+        for(String player : section.getKeys(false)) {
+            String path = "data." + player + ".";
+            PlayerProfile profile = jobsManager.getPlayerProfile(player);
+            profile.setCurrentJob(jobsManager.getJobByName(data.getString(path + "current")));
+        }
+    }
+
+    public void assignJob(String player, Job job) {
+        data.set("data." + player + ".current", job.getName());
+    }
+
+    public void saveStats(String player, Job job) {
+        String path = "data." + player + ".stats." + job.getName() + ".";
+        JobStats jobStats = jobsManager.getPlayerProfile(player).getJobStats(job);
+        data.set(path + "level", jobStats.getLevel());
+        data.set(path + "exp", jobStats.getExp());
+    }
+
+    public void saveData() {
+        try {
+            data.save(getDataFile());
+        } catch(IOException e) {
+            plugin.getLogger().severe("Can't save data.yml, " + e.getMessage());
+        }
     }
 
     public File getConfigFile() {
@@ -97,6 +125,10 @@ public class DataHandler {
 
     public File getJobsFile() {
         return getFile("jobs.yml");
+    }
+
+    public File getDataFile() {
+        return getFile("data.yml");
     }
 
     public File getFile(String resourceName) {
