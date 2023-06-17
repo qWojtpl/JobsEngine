@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -39,6 +40,27 @@ public class Events implements Listener {
             }
         } else {
             expToGive += job.getExpInfo().getBlockBreaks().get(blockName);
+        }
+        jobsManager.getPlayerProfile(event.getPlayer().getName()).getJobStats(job).addExp(expToGive);
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onPlace(BlockPlaceEvent event) {
+        if(event.isCancelled()) {
+            return;
+        }
+        Job job = jobsManager.getPlayersJob(event.getPlayer().getName());
+        if(job == null) {
+            return;
+        }
+        double expToGive = 0;
+        String blockName = event.getBlock().getType().name().toLowerCase();
+        if(!job.getExpInfo().getBuildBlocks().containsKey(blockName)) {
+            if(job.getExpInfo().getBuildBlocks().containsKey("ANY")) {
+                expToGive += job.getExpInfo().getBuildBlocks().get("ANY");
+            }
+        } else {
+            expToGive += job.getExpInfo().getBuildBlocks().get(blockName);
         }
         jobsManager.getPlayerProfile(event.getPlayer().getName()).getJobStats(job).addExp(expToGive);
     }

@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-public class GUIMethods {
+public abstract class GUIMethods {
 
     private final JobsEngine plugin = JobsEngine.getInstance();
     private final Player owner;

@@ -87,8 +87,13 @@ public class ExperienceGUI extends GUIMethods {
                     + exp + " exp"));
             i++;
         }
-        if(extendedLore.size() > 0) {
-            setSlot(35, Material.BEDROCK, "§aAnd (" + (pageInfo.size() - 35) + ") more...", extendedLore);
+        if(i == 0) {
+            setSlot(22, Material.BARRIER, "§4No experience",
+                    getLore("§cYou can't receive experience for " + pageName + "!"));
+        } else {
+            if(extendedLore.size() > 0) {
+                setSlot(35, Material.BEDROCK, "§aAnd (" + (pageInfo.size() - 35) + ") more...", extendedLore);
+            }
         }
     }
 
