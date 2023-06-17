@@ -17,14 +17,14 @@ public class Commands implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        args = makeArrayLowercase(args);
+        args = arrayToClassName(args);
         if(args.length > 0) {
             invokeMethod(sender, args);
         } else {
             if(sender instanceof Player) {
-                invokeMethod(sender, new String[]{"profile"});
+                invokeMethod(sender, new String[]{"ProfileCommand"});
             } else {
-                invokeMethod(sender, new String[]{"help"});
+                invokeMethod(sender, new String[]{"HelpCommand"});
             }
         }
         return true;
@@ -57,10 +57,10 @@ public class Commands implements CommandExecutor {
         }
     }
 
-    private String[] makeArrayLowercase(String[] array) {
+    private String[] arrayToClassName(String[] array) {
         String[] arr = new String[array.length];
         for(int i = 0; i < array.length; i++) {
-            arr[i] = array[i].toLowerCase();
+            arr[i] = array[i].substring(0, 1).toUpperCase() + array[i].substring(1).toLowerCase() + "Command";
         }
         return arr;
     }
